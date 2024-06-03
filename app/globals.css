@@ -28,7 +28,8 @@ body, h1, h2, h3, h4, h5, h6, p, a {
 }
 
 @layer components {
-  .cool {
-    @apply bg-red-300;
+  .helper {
+    border-width: 2px;
+    border-color: rgb(236, 236, 236);
   }
 }

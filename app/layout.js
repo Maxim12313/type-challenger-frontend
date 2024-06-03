@@ -1,5 +1,6 @@
 import "./globals.css";
-import Navbar from "./components/Navbar"
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 
 
 export const metadata = {
@@ -11,7 +12,10 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className="w-dvw h-dvh">
         <Navbar />
-        {children}
+        <div className="py-16 flex flex-col items-center h-full w-full">
+          {children}
+        </div>
+        <Footer />
       </body>
     </html>
   );
