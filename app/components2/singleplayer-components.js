@@ -20,18 +20,19 @@ export function App() {
 export function TextArea() {
   const HardCoded = "i like fat orange cats";
   const [typedIdx, setTypedIdx] = useState(0);
-  const [charTyped, setCharTyped] = useState('');
+  const [errorTyped, setErrorTyped] = useState([]);
 
   useEffect(()=> {
     const onKeyDown = (e) => {
       const key = e.key;
-      console.log(key);
-      if (key == HardCoded[typedIdx]) {
-        setTypedIdx(typedIdx + 1);
-        setCharTyped(key);
+      if (key == 'Backspace' && errorTyped.length > 0) {
+        setErrorTyped(errorTyped.slice(0,errorTyped.length-1));
       }
-      else {
-        setCharTyped(key);
+      else if (key == HardCoded[typedIdx] && errorTyped.length == 0) {
+        setTypedIdx(typedIdx + 1);
+      }
+      else if (key.match(/^[a-zA-Z]+$/)){
+        setErrorTyped([...errorTyped, key]);
       }
     }
     window.addEventListener("keydown", onKeyDown);
@@ -41,20 +42,22 @@ export function TextArea() {
     }
   })
   const updateText = () => {
-    let letters = [];
-    for (let i = 0; i < typedIdx; i++) {
-      if (HardCoded[i] == ' ') letters.push(<div className="inline-block text-2xl bg-green-400">&nbsp;</div>);
-      else letters.push(<div className="inline-block text-2xl bg-green-400">{HardCoded.charAt(i)}</div>);
-    }
-    for (let i = typedIdx; i < HardCoded.length; i++) {
-      if (HardCoded[i] == ' ') letters.push(<div className="inline-block text-2xl bg-red-400">&nbsp;</div>);
-      else letters.push(<div className="inline-block text-2xl bg-red-400">{HardCoded.charAt(i)}</div>);
-    }
+    const letters = HardCoded.split('');
+    letters.splice(typedIdx, 0, ...errorTyped);
     console.log(letters);
+    const text = letters.map((c, i) => {
+      const letter = c == ' ' ? <p>&nbsp;</p> : <p>{c}</p>;
+      let color = "white";
+      if (i < typedIdx + errorTyped.length) {
+        color = i < typedIdx ? "lightGreen" : "red";
+      }
+
+      return (<div key={i} className="inline-block text-2xl" style={{backgroundColor:color}}>{letter}</div>);
+    });
 
     return (
       <div>
-        {letters}
+        {text}
       </div>
     )
   }
