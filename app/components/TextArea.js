@@ -3,16 +3,16 @@ import { useState, useEffect } from "react";
 
 
 export function TextArea() {
-  const [words, setWords] = useState();
-  const [correct, setCorrect] = useState();
+  const [words, setWords] = useState([]);
+  const [correct, setCorrect] = useState([]);
 
 
   useEffect(() => { 
-    
+
   });
 
-  const wordComponents = words.map(() => {
-
+  const wordComponents = words.map((word, i) => {
+    return "";
   });
 
   return (
