@@ -1,13 +1,13 @@
 'use client'
 import { useEffect, useState } from "react";
 
-export function Page() {
+export default function Page() {
   return (
     <App/>
   );
 }
 
-export function App() {
+const App = () => {
   return (
     <div className="text-center pt-10 h-screen">
       <Banner/>
@@ -31,7 +31,7 @@ export function TextArea() {
       else if (key == HardCoded[typedIdx] && errorTyped.length == 0) {
         setTypedIdx(typedIdx + 1);
       }
-      else if (key.match(/^[a-zA-Z]+$/)){
+      else if (key >= 'a' && key <= 'z' || key >= 'A' && key <= 'Z'){
         setErrorTyped([...errorTyped, key]);
       }
     }
@@ -63,7 +63,7 @@ export function TextArea() {
   }
   
   return (
-    <main className="h-4/6 flex flex-col place-content-center items-center border-2">
+    <main className="h-4/6 w-full flex flex-col place-content-center items-center">
         <div className="h-5/6 border-2 w-10/12">
           {updateText()}
         </div>
@@ -76,7 +76,7 @@ export function TextArea() {
   )
 }
 
-export function Banner() {
+const Banner = () => {
   return (
     <div className="h-1/6">
       <div>Banner</div>
@@ -91,7 +91,7 @@ export function Banner() {
   )
 }
 
-export function HelpFooter() {
+export function HelpFooter () {
   return (
     <div className="h-1/6">
       KEY HELP
