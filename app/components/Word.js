@@ -10,10 +10,11 @@ export default function Word({ word, input }) {
       <Letter key={i} letter={word[i]} input={input[i]}/>
     );
   }
+  
   const extraElems = [];
   for (let i = word.length; i < input.length && input[i]; i++) {
     extraElems.push(
-      <Letter key={i} letter="incorrect" input={input[i]}/> //guarantees failure
+      <Letter key={i} letter="incorrect" input={input[i]} /> //guarantees failure
     );
   }
 

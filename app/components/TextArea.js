@@ -55,6 +55,12 @@ export default function TextArea() {
           prev[wordIdx][letterIdx - 1] = null;
           setLetterIdx(letterIdx - 1);
         }
+        else if (wordIdx > 0) {
+          let newLetterIdx = prev[wordIdx - 1].length;
+          while (prev[wordIdx - 1][newLetterIdx - 1] == null) newLetterIdx--;
+          setWordIdx(wordIdx - 1);
+          setLetterIdx(newLetterIdx);
+        }
       };
       //go next word
       const handleNext = () => {
