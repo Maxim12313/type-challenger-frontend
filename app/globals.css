@@ -4,9 +4,9 @@
 
 :root {
   --color1: #5BBCFF;
-  --color2: #FFFAB7;
-  --color3: #FFD1E3;
-  --color4: #7EA1FF;
+  --color2: rgb(128, 128, 128);
+  --color3: rgb(255, 0, 0);
+  --color4: #000000;
   --slate: #8892b0;
   --light-slate: #a8b2d1;
   --lightest-slate: #ccd6f6;
@@ -26,6 +26,8 @@ body, h1, h2, h3, h4, h5, h6, p, a {
   -webkit-font-smoothing: antialiased; /* Smoothing for better rendering */
   -moz-osx-font-smoothing: grayscale; 
 }
+
+
 
 @layer components {
   .helper {
