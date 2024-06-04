@@ -11,7 +11,9 @@ export default function TextArea() {
 
   async function nextWord() {
     const freq = 100;
-    const url = "http://localhost:8080/word/" + freq;
+    const development = "http://localhost:8080/word/";
+    const production = "https://type-challenger-backend-o2gxniz4ia-ue.a.run.app";
+    const url = (process.env.NODE_ENV == "development" ? development : production) + freq;
     const res = await fetch(url);
     const data = await res.json();
     setWords((prev) => {
