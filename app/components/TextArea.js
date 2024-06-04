@@ -90,7 +90,6 @@ export default function TextArea() {
 
     };
 
-
     window.addEventListener("keydown", keyDown);
 
     return () => {
