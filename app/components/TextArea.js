@@ -22,9 +22,22 @@ export default function TextArea() {
     });
   }
 
+  const restart = () => {
+    setWords([]);
+    setInputs([]);
+    setWordIdx(0);
+    setLetterIdx(0);
+    const count = 100;
+    for (let i = 0; i < count; i++) {
+      nextWord();
+    }
+  };
+
   //runs once at start
   useEffect(() => {
     //first 100 words
+    setWords([]);
+    setInputs([]);
     const count = 100;
     for (let i = 0; i < count; i++) {
       nextWord();
@@ -94,7 +107,7 @@ export default function TextArea() {
       >
         { wordComponents }
       </div>
-      <button className="mt-5">
+      <button className="mt-5" onClick={restart}>
         Restart
       </button>
     </div>
