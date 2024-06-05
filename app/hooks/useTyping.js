@@ -57,6 +57,7 @@ export default function useTyping() {
     const wordElems = container.querySelectorAll("div[class=word-class]");
     let i = 0;
     while (i < wordElems.length && wordElems[i].getBoundingClientRect().y - topY != 32) {
+      nextWord();
       i++;
     }
     setRenderingIdx((prev) => {
