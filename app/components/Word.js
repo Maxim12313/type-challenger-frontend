@@ -10,7 +10,7 @@ export default function Word({ word, input, activeIdx }) {
       <Letter
         key={i}
         letter={word[i]}
-        input={input[i] != ' ' ? input[i] : '_'} //for visibility reasons
+        input={input[i]} //for visibility reasons
         isActive={activeIdx == i}
       />
     );
@@ -28,7 +28,9 @@ export default function Word({ word, input, activeIdx }) {
     );
   }
 
-  const space = <Letter letter="  " input="  " isActive={activeIdx >= word.length}/>
+  const space = (
+    <Letter letter="   " input="   " isActive={activeIdx >= word.length} />
+  );
 
   return (
     <div className="flex flex-row w-fit">

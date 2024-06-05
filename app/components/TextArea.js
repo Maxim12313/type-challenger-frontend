@@ -8,6 +8,8 @@ export default function TextArea() {
   const [inputs, setInputs] = useState([]);
   const [wordIdx, setWordIdx] = useState(0);
   const [letterIdx, setLetterIdx] = useState(0);
+  const [activeY, setActiveY] = useState(-2);
+  const [renderingIdx, setRenderingIdx] = useState(0);
 
   async function nextWord() {
     const freq = 100;
@@ -29,7 +31,7 @@ export default function TextArea() {
     setInputs([]);
     setWordIdx(0);
     setLetterIdx(0);
-    const count = 100;
+    const count = 50;
     for (let i = 0; i < count; i++) {
       nextWord();
     }
@@ -40,11 +42,25 @@ export default function TextArea() {
     //first 100 words
     setWords([]);
     setInputs([]);
-    const count = 100;
+    const count = 50;
     for (let i = 0; i < count; i++) {
       nextWord();
     }
   }, []);
+
+  useEffect(() => {
+    const activeLetter = document.getElementById("active");
+    if (!activeLetter) return;
+    const y = activeLetter.getBoundingClientRect().y;
+    setActiveY((prev) => {
+      if (prev != y && prev != -2) {
+        setRenderingIdx(wordIdx);
+      }
+      return y;
+    });
+
+  }, [activeY, wordIdx]);
+
 
   useEffect(() => { 
     const keyDown = (e) => {
@@ -100,21 +116,22 @@ export default function TextArea() {
   }, [wordIdx, letterIdx]);
 
 
-  const wordComponents = words.map((word, i) => {
-    return (
+
+  const wordComponents = [];
+  for (let i = renderingIdx; i < words.length; i++) {
+    wordComponents.push(
       <Word
         key={i}
-        word={word}
+        word={words[i]}
         input={inputs[i]}
         activeIdx={wordIdx == i ? letterIdx : -1} //active letter idx
       />
     );
-  });
-
+  }
   return (
     <div className="w-full h-full flex flex-col items-center justify-center helper">
       <div 
-        className="max-w-[2000px] w-full h-32 flex flex-row py-5 px-20 helper 
+        className="max-w-[2000px] w-full h-32 flex flex-row py-5 px-36 helper 
                   flex-wrap justify-start items-center overflow-hidden"
       >
         { wordComponents }

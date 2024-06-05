@@ -15,15 +15,18 @@ export default function Letter({ letter, input, isActive }) {
     display = input;
     textColor = "var(--color4)";
   }
+  if (display == ' ') display = "_"; //for visibility reasons
 
   const style = {
     color: textColor,
     backgroundColor: isActive ? "yellow" : "transparent"
   };
 
+  const id = isActive ? "active" : "";
+
   return (
     <p 
-      data-active={isActive}
+      id={id}
       className="text-2xl whitespace-pre"
       style={style}
     >
