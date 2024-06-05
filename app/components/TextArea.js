@@ -55,6 +55,9 @@ export default function TextArea() {
     setActiveY((prev) => {
       if (prev != y && prev != -2) {
         setRenderingIdx(wordIdx);
+        for (let i = 0; i < 10; i++) {
+          nextWord();
+        }
       }
       return y;
     });
@@ -69,11 +72,11 @@ export default function TextArea() {
 
       //go back 1
       const handleBackspace = (prev) => {
-        if (letterIdx > 0 ) {
+        if (letterIdx > 0) {
           prev[wordIdx][letterIdx - 1] = null;
           setLetterIdx(letterIdx - 1);
         }
-        else if (wordIdx > 0) {
+        else if (wordIdx > renderingIdx) {
           let newLetterIdx = prev[wordIdx - 1].length;
           while (prev[wordIdx - 1][newLetterIdx - 1] == null) newLetterIdx--;
           setWordIdx(wordIdx - 1);
