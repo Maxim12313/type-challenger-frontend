@@ -28,7 +28,7 @@ export default function useTyping() {
     setInputs([]);
     setWordIdx(0);
     setLetterIdx(0);
-    const count = 50;
+    const count = 100;
     for (let i = 0; i < count; i++) {
       nextWord();
     }
