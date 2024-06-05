@@ -33,7 +33,10 @@ export default function Word({ word, input, activeIdx }) {
   );
 
   return (
-    <div className="flex flex-row w-fit">
+    <div 
+      className="word-class"
+      id={activeIdx != null ? "active-word" : undefined}
+    >
       { letterElems }
       { extraElems }
       { space }

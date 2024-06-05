@@ -6,7 +6,6 @@ export default function useTyping() {
   const [inputs, setInputs] = useState([]);
   const [wordIdx, setWordIdx] = useState(0);
   const [letterIdx, setLetterIdx] = useState(0);
-  const [activeY, setActiveY] = useState(-2);
   const [renderingIdx, setRenderingIdx] = useState(0);
 
   const nextWord = useCallback(async () => {
@@ -43,19 +42,27 @@ export default function useTyping() {
 
   //scrolling
   useEffect(() => {
-    const activeLetter = document.getElementById("active");
-    if (!activeLetter) return;
-    const y = activeLetter.getBoundingClientRect().y;
-    setActiveY((prev) => {
-      if (prev !== y && prev !== -2) {
-        setRenderingIdx(wordIdx);
-        for (let i = 0; i < 10; i++) {
-          nextWord();
-        }
-      }
-      return y;
+    const container = document.querySelector("#word-list");
+    const topWord = container.querySelector("div[class=word-class]");
+    const activeWord = container.querySelector("#active-word");
+
+    if (!topWord || !activeWord) return;
+
+    const topY = topWord.getBoundingClientRect().y;
+    const activeY = activeWord.getBoundingClientRect().y;
+    const diff = activeY - topY;
+
+    if (diff != 64) return;
+
+    const wordElems = container.querySelectorAll("div[class=word-class]");
+    let i = 0;
+    while (i < wordElems.length && wordElems[i].getBoundingClientRect().y - topY != 32) {
+      i++;
+    }
+    setRenderingIdx((prev) => {
+      return prev + i;
     });
-  }, [activeY, wordIdx, nextWord]);
+  }, [wordIdx, nextWord, renderingIdx]);
 
   //typing
   useEffect(() => { 

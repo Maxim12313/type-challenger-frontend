@@ -34,4 +34,10 @@ body, h1, h2, h3, h4, h5, h6, p, a {
     border-width: 2px;
     border-color: rgb(236, 236, 236);
   }
+
+  .word-class {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+  }
 }

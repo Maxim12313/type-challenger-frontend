@@ -22,11 +22,9 @@ export default function Letter({ letter, input, isActive }) {
     backgroundColor: isActive ? "yellow" : "transparent"
   };
 
-  const id = isActive ? "active" : "";
 
   return (
     <p 
-      id={id}
       className="text-2xl whitespace-pre"
       style={style}
     >
