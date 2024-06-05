@@ -11,9 +11,9 @@ export default function TextArea() {
 
   async function nextWord() {
     const freq = 100;
-    const development = "http://localhost:8080/word/";
-    const production = "https://type-challenger-backend-o2gxniz4ia-ue.a.run.app/word/";
-    const url = (process.env.NODE_ENV == "development" ? development : production) + freq;
+    const development = "http://localhost:8080";
+    const production = "https://type-challenger-backend-o2gxniz4ia-ue.a.run.app";
+    const url = (process.env.NODE_ENV == "development" ? development : production) + "/word/" + freq;
     const res = await fetch(url);
     const data = await res.json();
     setWords((prev) => {
@@ -102,7 +102,12 @@ export default function TextArea() {
 
   const wordComponents = words.map((word, i) => {
     return (
-      <Word key={i} word={word} input={inputs[i]}/>
+      <Word
+        key={i}
+        word={word}
+        input={inputs[i]}
+        activeIdx={wordIdx == i ? letterIdx : -1} //active letter idx
+      />
     );
   });
 
@@ -110,7 +115,7 @@ export default function TextArea() {
     <div className="w-full h-full flex flex-col items-center justify-center helper">
       <div 
         className="max-w-[2000px] w-full h-32 flex flex-row py-5 px-20 helper 
-                  space-x-5 flex-wrap justify-start items-center overflow-hidden"
+                  flex-wrap justify-start items-center overflow-hidden"
       >
         { wordComponents }
       </div>

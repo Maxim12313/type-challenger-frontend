@@ -1,6 +1,6 @@
 //input is null if empty
 //correct letter, user input letter
-export default function Letter({ letter, input }) {
+export default function Letter({ letter, input, isActive }) {
   let display;
   let textColor;
   if (!input) { //not reached yet
@@ -15,15 +15,16 @@ export default function Letter({ letter, input }) {
     display = input;
     textColor = "var(--color4)";
   }
+
   const style = {
     color: textColor,
+    backgroundColor: isActive ? "yellow" : "transparent"
   };
-
-  if (display == ' ') display = '_'; //for visibility reasons
 
   return (
     <p 
-      className="text-2xl"
+      data-active={isActive}
+      className="text-2xl whitespace-pre"
       style={style}
     >
       { display }
