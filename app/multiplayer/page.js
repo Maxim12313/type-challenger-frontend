@@ -1,5 +1,6 @@
+import Login from '@/app/auth/Login'
 export default function Multiplayer() {
   return (
-    <h1>multiplayer</h1>
+    <Login/>
   );
 }
