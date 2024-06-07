@@ -77,14 +77,15 @@ export default function useTyping() {
 
   const runningWPM = () => {
     const interval = setInterval(() => {
-      time.current += 1;
-      setWPM(Math.floor(60 * correctCount.current / time.current));
-      const endTime = 30;
+      time.current += 100;
+      setWPM(Math.floor(60000 * correctCount.current / time.current));
+      const endTime = 30 * 1000;
+      console.log(time.current);
       if (time.current == endTime) {
         setGameStarted(false);
         clearInterval(interval);
       }
-    }, 1000);
+    }, 100);
   };
 
   //typing
