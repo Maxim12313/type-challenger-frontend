@@ -4,8 +4,9 @@ import { useState, useEffect } from "react"
 
 import useTyping from "../hooks/useTyping";
 import WordList from "./WordList";
+import TestStats from "./TestStats";
 
-export default function TextArea() {
+export default function Game({ testLength }) {
   const {
     words,
     inputs,
@@ -13,14 +14,23 @@ export default function TextArea() {
     letterIdx,
     renderingIdx,
     restart,
-    WPM,
-    gameStarted
-  } = useTyping();
+    gameStarted,
+    time,
+    correctCount,
+  } = useTyping({ testLength });
+
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center helper">
-      <h1 className={`text-5xl font-semibold ${gameStarted ? "text-blue-600" : ""}`}>{ WPM}</h1>
-      <WordList 
+    <div className="w-full h-1/2 flex flex-col items-center justify-center helper px-36">
+      <TestStats 
+        gameStarted={gameStarted} 
+        time={time.current}
+        testLength={testLength}
+        correctCount={correctCount.current}
+        wordIdx={wordIdx}
+      />
+
+      <WordList
         words={words}
         inputs={inputs}
         wordIdx={wordIdx}

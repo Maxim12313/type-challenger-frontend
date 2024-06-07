@@ -15,7 +15,7 @@ export default function WordList({ words, inputs, wordIdx, letterIdx, renderingI
   return (
     <div 
       id="word-list"
-      className="max-w-[2000px] w-full h-32 flex flex-row py-5 px-36 helper 
+      className="max-w-[2000px] w-full h-32 flex flex-row py-5 helper 
                 flex-wrap justify-start items-center overflow-hidden"
     >
       { wordComponents }

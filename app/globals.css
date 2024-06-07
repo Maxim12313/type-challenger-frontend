@@ -28,6 +28,11 @@ body, h1, h2, h3, h4, h5, h6, p, a, form {
 }
 
 
+h1 {
+  font-size: 48px;
+  font-weight: 600;
+}
+
 
 @layer components {
   .helper {
@@ -56,5 +61,4 @@ body, h1, h2, h3, h4, h5, h6, p, a, form {
     line-height: 1.5;
     padding-top: 5px;
   }
-
 }
