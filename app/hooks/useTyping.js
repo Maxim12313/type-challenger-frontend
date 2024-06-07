@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 
 export default function useTyping() {
@@ -7,6 +7,11 @@ export default function useTyping() {
   const [wordIdx, setWordIdx] = useState(0);
   const [letterIdx, setLetterIdx] = useState(0);
   const [renderingIdx, setRenderingIdx] = useState(0);
+  const [WPM, setWPM] = useState(0);
+  const gameReady = useRef(true);
+  const [gameStarted, setGameStarted] = useState(false);
+  const correctCount = useRef(0);
+  const time = useRef(0);
 
   const nextWord = useCallback(async () => {
     const freq = 100;
@@ -24,6 +29,10 @@ export default function useTyping() {
   }, []);
 
   const restart = useCallback(async () => {
+    gameReady.current = true;
+    time.current = 0;
+    correctCount.current = 0;
+    setWPM(0);
     setWords([]);
     setInputs([]);
     setWordIdx(0);
@@ -65,11 +74,60 @@ export default function useTyping() {
     });
   }, [wordIdx, nextWord, renderingIdx]);
 
+
+  const runningWPM = () => {
+    const interval = setInterval(() => {
+      time.current += 1;
+      setWPM(Math.floor(60 * correctCount.current / time.current));
+      const endTime = 30;
+      if (time.current == endTime) {
+        setGameStarted(false);
+        clearInterval(interval);
+      }
+    }, 1000);
+  };
+
   //typing
   useEffect(() => { 
-    const keyDown = (e) => {
+
+    const isCorrect = (wordIdx) => {
+      const correct = words[wordIdx];
+      const user = inputs[wordIdx];
+      for (let i = 0; i < correct.length; i++) {
+        if (correct[i] != user[i]) return false;
+      }
+      return user[correct.length] == null; //must be same length as well
+    };
+
+    //logic for getting wpm
+    const keydownCountCorrect = (e) => {
       const key = e.key;
       if (key != 'Backspace' && key.length > 1) return;
+
+      //set startTime
+      if (key != 'Backspace' && gameReady.current) {
+        runningWPM();
+        setGameStarted(true);
+        gameReady.current = false;
+      }
+      //go prev word
+      if (key == "Backspace" && letterIdx == 0 && wordIdx > renderingIdx) {
+        if (isCorrect(wordIdx - 1)) {
+          correctCount.current--;
+        }
+      } 
+      //go next word
+      else if (key == " " && letterIdx >= inputs[wordIdx].length - 10) {
+        if (isCorrect(wordIdx)) {
+          correctCount.current++;
+        }
+      }
+    };
+
+    //logic for typing
+    const keydownType = (e) => {
+      const key = e.key;
+      if (key != 'Backspace' && key.length > 1 || !gameStarted) return;
 
       //go back 1
       const handleBackspace = (prev) => {
@@ -84,6 +142,7 @@ export default function useTyping() {
           setLetterIdx(newLetterIdx);
         }
       };
+
       //go next word
       const handleNext = () => {
         setWordIdx(wordIdx + 1);
@@ -112,12 +171,14 @@ export default function useTyping() {
 
     };
 
-    window.addEventListener("keydown", keyDown);
+    window.addEventListener("keydown", keydownCountCorrect);
+    window.addEventListener("keydown", keydownType);
 
     return () => {
-      window.removeEventListener("keydown", keyDown);
+      window.removeEventListener("keydown", keydownCountCorrect);
+      window.removeEventListener("keydown", keydownType);
     }
-  }, [wordIdx, letterIdx, renderingIdx]);
+  }, [wordIdx, letterIdx, renderingIdx, inputs, words, gameStarted, gameReady]);
 
   return {
     words,
@@ -126,5 +187,7 @@ export default function useTyping() {
     letterIdx,
     renderingIdx,
     restart,
+    WPM,
+    gameStarted,
   };
 }
