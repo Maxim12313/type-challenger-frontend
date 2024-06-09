@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
 import { FaLock, FaEnvelope } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { GiConfirmed } from "react-icons/gi";
@@ -20,7 +19,7 @@ export default function InputForm({method}) {
     doLogin(email, password)
     .then((user) => {
       console.log("login successful", user);
-      
+
 
     })
     .catch((error) => {
