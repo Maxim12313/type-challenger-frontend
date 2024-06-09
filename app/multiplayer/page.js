@@ -1,6 +1,6 @@
-import Login from '@/app/auth/Login'
-export default function Multiplayer() {
+
+export default function Home() {
   return (
-    <Login/>
+    <h1>Room for Multiplayer</h1>
   );
 }
