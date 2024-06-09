@@ -5,4 +5,8 @@ export default function useFocus({ gameStarted }) {
     const res = gameStarted ? "hidden" : "visible";
     document.documentElement.style.setProperty("--focus", res);
   }, [gameStarted]);
+
+  // useEffect(() => {
+
+  // });
 }
