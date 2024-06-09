@@ -12,6 +12,7 @@
   --lightest-slate: #ccd6f6;
   --font-sans: 'Calibre', 'Inter', 'San Francisco', 'SF Pro Text', -apple-system, system-ui, sans-serif;
   --font-mono: 'SF Mono', 'Fira Code', 'Fira Mono', 'Roboto Mono', monospace;
+  --focus: hidden;
 }
 
 body {
@@ -60,5 +61,9 @@ h1 {
     color: var(--color4);
     line-height: 1.5;
     padding-top: 5px;
+  }
+
+  .focus-hidden {
+    visibility: var(--focus);
   }
 }

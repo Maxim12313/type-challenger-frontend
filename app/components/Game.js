@@ -1,12 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react"
-
 import useTyping from "../hooks/useTyping";
+import useFocus from "../hooks/useFocus";
+
 import WordList from "./WordList";
 import TestStats from "./TestStats";
 
-export default function Game({ testLength }) {
+export default function Game({ testLength, gameStarted, setGameStarted }) {
   const {
     words,
     inputs,
@@ -14,11 +14,11 @@ export default function Game({ testLength }) {
     letterIdx,
     renderingIdx,
     restart,
-    gameStarted,
     time,
     correctCount,
-  } = useTyping({ testLength });
+  } = useTyping({ testLength, gameStarted, setGameStarted });
 
+  useFocus({ gameStarted });
 
   return (
     <div className="w-full h-1/2 flex flex-col items-center justify-center helper px-36">
