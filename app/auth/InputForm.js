@@ -61,26 +61,6 @@ export default function InputForm({method}) {
     doSignWithGoogle();
   }
 
-  const ConfirmPassword = () => {
-    if (method == 'signup') {
-      return (
-        <div className="flex flex-row items-center justify-center formInput">
-          <GiConfirmed size={20}/>
-          <input className="ml-2" value={confirmPassword} type='password' placeholder="Your Password" 
-            onChange={(e)=>{setConfirmPassword(e.target.value)}}/>
-        </div>
-      )
-    }
-  }
-
-  const ForgotPassword = () => {
-    if (method == 'login') {
-      return (
-        <button className="w-full text-right pt-2"> Forgot Password? </button>
-      )
-    }
-  }
-
   return (
     <div className="py-5">
       <form className="" onSubmit={(e)=>{method == "login" ? handleLogin(e) : handleSignUp(e)}}>
@@ -98,21 +78,27 @@ export default function InputForm({method}) {
             onChange={(e)=>{setPassword(e.target.value)}}/>
         </div>
         
-        <ConfirmPassword/>
+        {method == 'signup' && 
+          <div className="flex flex-row items-center justify-center formInput">
+            <GiConfirmed size={20}/>
+            <input className="ml-2" value={confirmPassword} type='password' placeholder="Confirm Password" 
+              onChange={(e)=>{setConfirmPassword(e.target.value)}}/>
+          </div>
+        }
 
-        <ForgotPassword/>
+        {method == 'login' && 
+          <button className="w-full text-right pt-2"> Forgot Password? </button>
+        }
 
         <input className="w-full h-8 text-center mt-5 border-2 text-xl hover:bg-gray-200" 
           value={method === "login" ? "LOGIN" : "SIGNUP"} type="submit"/>
 
         <div className="w-full text-center pt-2" style={{color: status.success ? 'green' : 'red'}}> {status.message} </div>
 
-        <p className="w-full text-center text-xl mt-20"> {method == "login" ? "Or Login With" : "Or Sign In With"} </p>
+        <p className="w-full text-center text-xl mt-10"> {method == "login" ? "Or Login With" : "Or Sign In With"} </p>
         <button onClick={(e)=>{handleSignWithGoogle(e)}} className="w-full h-8 flex flex-row items-center place-content-center border-2 text-xl hover:bg-gray-200"> 
           <FcGoogle/> OOGLE 
         </button>
-        
-
         
       </form>
     </div>
