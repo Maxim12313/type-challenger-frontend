@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 
-export default function useTyping({ testLength }) {
+export default function useTyping({ testLength, freq }) {
   const [words, setWords] = useState([]);
   const [inputs, setInputs] = useState([]);
   const [wordIdx, setWordIdx] = useState(0);
@@ -14,7 +14,6 @@ export default function useTyping({ testLength }) {
 
 
   const nextWord = useCallback(async () => {
-    const freq = 100;
     const development = "http://localhost:8080";
     const production = "https://type-challenger-backend-o2gxniz4ia-ue.a.run.app";
     const url = (process.env.NODE_ENV == "development" ? development : production) + "/word/" + freq;
@@ -26,7 +25,7 @@ export default function useTyping({ testLength }) {
     setInputs((prev) => {
       return [...prev, Array(data.word.length + 10).fill(null)];
     });
-  }, []);
+  }, [freq]);
 
   const restart = useCallback(async () => {
     clearInterval(interval.current);

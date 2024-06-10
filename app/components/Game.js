@@ -10,6 +10,7 @@ import TestStats from "./TestStats";
 
 export default function Game() {
   const [testLength, setTestLength] = useState(30);
+  const [freq, setFreq] = useState(100);
 
   const {
     words,
@@ -21,11 +22,11 @@ export default function Game() {
     time,
     correctCount,
     gameStarted,
-  } = useTyping({ testLength });
+  } = useTyping({ testLength, freq });
 
   return (
     <div className="flex flex-col w-full h-full items-center justify-center">
-      <GameBar setTestLength={setTestLength} restart={restart} />
+      <GameBar setTestLength={setTestLength} restart={restart} setFreq={setFreq}/>
       <div className="w-full h-1/2 flex flex-col items-center justify-center helper px-36">
         <TestStats
           gameStarted={gameStarted}
