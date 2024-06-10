@@ -1,12 +1,12 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 
-
-export default function useTyping({ testLength, gameStarted, setGameStarted }) {
+export default function useTyping({ testLength }) {
   const [words, setWords] = useState([]);
   const [inputs, setInputs] = useState([]);
   const [wordIdx, setWordIdx] = useState(0);
   const [letterIdx, setLetterIdx] = useState(0);
   const [renderingIdx, setRenderingIdx] = useState(0);
+  const [gameStarted, setGameStarted] = useState(false);
   const interval = useRef(null);
   const gameReady = useRef(true);
   const correctCount = useRef(0);
