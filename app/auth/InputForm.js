@@ -1,11 +1,14 @@
 'use client'
 
 import { useState } from "react";
-import { FaLock, FaEnvelope } from "react-icons/fa";
+import { FaLock, FaEnvelope, FaUser } from "react-icons/fa";
+import { FaUserPlus } from "react-icons/fa6";
+import { BiLogIn } from "react-icons/bi";
 import { GiConfirmed } from "react-icons/gi";
 
 
 export default function InputForm({method}) {
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -66,26 +69,31 @@ export default function InputForm({method}) {
   }
 
   return (
-    <div className="py-5">
+    <div className="w-full">
       <form className="" onSubmit={(e)=>{method == "login" ? handleLogin(e) : handleSignUp(e)}}>
-        <div className="formLabel"> Email </div>
+        
+        <div className="flex flex-row items-center justify-center formInput">
+          <FaUser size={18}/>
+          <input className="ml-2"value={username} type='text' placeholder="username" 
+            onChange={(e)=>{setUsername(e.target.value)}}/>
+        </div>
+        
         <div className="flex flex-row items-center justify-center formInput">
           <FaEnvelope size={18}/>
-          <input className="ml-2"value={email} type='text' placeholder="Your Email" 
+          <input className="ml-2"value={email} type='text' placeholder="email" 
             onChange={(e)=>{setEmail(e.target.value)}}/>
         </div>
 
-        <div className="formLabel"> Password </div>
         <div className="flex flex-row items-center justify-center formInput">
           <FaLock size={18}/>
-          <input className="ml-2" value={password} type='password' placeholder="Your Password" 
+          <input className="ml-2" value={password} type='password' placeholder="password" 
             onChange={(e)=>{setPassword(e.target.value)}}/>
         </div>
         
         {method == 'signup' && 
           <div className="flex flex-row items-center justify-center formInput">
             <GiConfirmed size={18}/>
-            <input className="ml-2" value={confirmPassword} type='password' placeholder="Confirm Password" 
+            <input className="ml-2" value={confirmPassword} type='password' placeholder="confirm password" 
               onChange={(e)=>{setConfirmPassword(e.target.value)}}/>
           </div>
         }
@@ -94,17 +102,14 @@ export default function InputForm({method}) {
           <button className="w-full text-right pt-2"> Forgot Password? </button>
         }
 
-        <input className="w-full text-center mt-5 border-2 text-xl hover:bg-gray-200" 
-          value={method === "login" ? "LOGIN" : "SIGNUP"} type="submit"/>
+        <button className="w-full flex flex-row justify-center items-center space-x-3 mt-5 border-2 text-xl hover:bg-gray-200">
+          {method == 'login' ? <BiLogIn size={18}/> : <FaUserPlus size={18}/>}
+          <p>{method}</p>
+        </button>
 
         <div className="w-full text-center pt-2" style={{color: status.success ? 'green' : 'red'}}> {status.message} </div>
 
-        <p className="w-full text-center text-xl mt-10"> Or Sign In With </p>
       </form>
-
-      <div className="flex flex-row place-content-center">
-        <GoogleSignInButton/>
-      </div>
     </div>
   )
 }
