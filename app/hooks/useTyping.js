@@ -9,8 +9,8 @@ export default function useTyping({ testLength, freq }) {
   const [gameStarted, setGameStarted] = useState(false);
   const interval = useRef(null);
   const gameReady = useRef(true);
-  const correctCount = useRef(0);
-  const time = useRef(0);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [time, setTime] = useState(0);
 
 
   const nextWord = useCallback(async () => {
@@ -30,8 +30,8 @@ export default function useTyping({ testLength, freq }) {
   const restart = useCallback(async () => {
     clearInterval(interval.current);
     gameReady.current = true;
-    time.current = 0;
-    correctCount.current = 0;
+    setTime(0);
+    setCorrectCount(0);
     setWords([]);
     setInputs([]);
     setWordIdx(0);
@@ -63,6 +63,7 @@ export default function useTyping({ testLength, freq }) {
 
     if (diff != 64) return;
 
+    console.log("time to change");
     const wordElems = container.querySelectorAll("div[class=word-class]");
     let i = 0;
     while (i < wordElems.length && wordElems[i].getBoundingClientRect().y - topY != 32) {
@@ -77,15 +78,16 @@ export default function useTyping({ testLength, freq }) {
 
   const runningWPM = useCallback(() => {
     const startTime = new Date().getTime();
+    const endTime = testLength * 1000;
     interval.current = setInterval(() => {
-      time.current = new Date().getTime() - startTime;
-      const endTime = testLength * 1000;
-      if (time.current >= endTime || !gameReady) {
+      const t = new Date().getTime() - startTime;
+      setTime(t);
+      if (t >= endTime || !gameReady) {
         setGameStarted(false);
         clearInterval(interval.current);
       }
-    }, 100);
-  }, [testLength, setGameStarted]);
+    }, 1000);
+  }, [testLength, setGameStarted, setTime]);
 
   //typing
   useEffect(() => {
@@ -106,13 +108,13 @@ export default function useTyping({ testLength, freq }) {
       //go prev word
       if (key == "Backspace" && letterIdx == 0 && wordIdx > renderingIdx) {
         if (isCorrect(wordIdx - 1)) {
-          correctCount.current--;
+          setCorrectCount((prev) => prev - 1);
         }
       }
       //go next word
       else if (key == " " && letterIdx >= inputs[wordIdx].length - 10) {
         if (isCorrect(wordIdx)) {
-          correctCount.current++;
+          setCorrectCount((prev) => prev + 1);
         }
       }
     };
@@ -184,6 +186,7 @@ export default function useTyping({ testLength, freq }) {
     gameReady,
     runningWPM,
     setGameStarted,
+    setCorrectCount
   ]);
 
   return {
